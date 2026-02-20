@@ -14,7 +14,7 @@ def initialize_board():
         board.append(row)
     return board
 
-# displays thet board by join all the created arrays in intiialize_board() together
+# displays thet board by joining all the created arrays in intiialize_board() together
 def display_board(board):
     print()
     for row in board:
