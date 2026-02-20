@@ -72,21 +72,37 @@ def bomb_column(board, col):
     for row in range(ROWS):
         board[row][col] = '.'
 
-def get_player_action(player, piece, has_bomb):
+def double_drop(board, col, piece):
+    first = drop_piece(board, col, piece)
+    if not first:
+        return False
+    second = drop_piece(board, col, piece)
+    if not second:
+        return True
+    return True
+
+def get_player_action(player, piece, has_bomb, has_double):
     while True:
         print(f"Player {player} ({piece}), choose an action:")
         print("  1. Drop a piece")
+        options = ['1']
         if has_bomb:
             print("  2. Bomb a column")
-            choice = input("Enter 1 or 2: ").strip()
-            if choice == '1':
-                return 'drop', get_column_choice()
-            elif choice == '2':
-                return 'bomb', get_column_choice()
-            else:
-                print("Invalid choice. Enter 1 or 2.")
-        else:
+            options.append('2')
+        if has_double:
+            print("  3. Double drop (2 pieces in one column)")
+            options.append('3')
+        if len(options) == 1:
             return 'drop', get_column_choice()
+        choice = input(f"Enter {'/'.join(options)}: ").strip()
+        if choice == '1':
+            return 'drop', get_column_choice()
+        elif choice == '2' and has_bomb:
+            return 'bomb', get_column_choice()
+        elif choice == '3' and has_double:
+            return 'double', get_column_choice()
+        else:
+            print(f"Invalid choice. Enter {'/'.join(options)}.")
 
 def get_column_choice():
     while True:
@@ -102,6 +118,7 @@ def play():
     board = create_board()
     players = [('1', 'X'), ('2', 'O')]
     bombs = {'1': True, '2': True}
+    doubles = {'1': True, '2': True}
     turn = 0
 
     print("=== Connect 4 ===")
@@ -109,12 +126,19 @@ def play():
 
     while True:
         player, piece = players[turn % 2]
-        action, col = get_player_action(player, piece, bombs[player])
+        action, col = get_player_action(player, piece, bombs[player], doubles[player])
 
         if action == 'bomb':
             bomb_column(board, col)
             bombs[player] = False
             print(f"Player {player} bombed column {col + 1}!")
+            print_board(board)
+        elif action == 'double':
+            if not double_drop(board, col, piece):
+                print("That column is full! Try another.")
+                continue
+            doubles[player] = False
+            print(f"Player {player} double-dropped in column {col + 1}!")
             print_board(board)
         elif action == 'drop':
             if not drop_piece(board, col, piece):
