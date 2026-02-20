@@ -76,18 +76,17 @@ def get_player_action(player, piece, has_bomb):
     while True:
         print(f"Player {player} ({piece}), choose an action:")
         print("  1. Drop a piece")
-        bomb_label = "Bomb a column" if has_bomb else "Bomb a column (USED)"
-        print(f"  2. {bomb_label}")
-        choice = input("Enter 1 or 2: ").strip()
-        if choice == '1':
-            return 'drop', get_column_choice()
-        elif choice == '2':
-            if not has_bomb:
-                print("You already used your bomb!")
-                continue
-            return 'bomb', get_column_choice()
+        if has_bomb:
+            print("  2. Bomb a column")
+            choice = input("Enter 1 or 2: ").strip()
+            if choice == '1':
+                return 'drop', get_column_choice()
+            elif choice == '2':
+                return 'bomb', get_column_choice()
+            else:
+                print("Invalid choice. Enter 1 or 2.")
         else:
-            print("Invalid choice. Enter 1 or 2.")
+            return 'drop', get_column_choice()
 
 def get_column_choice():
     while True:
