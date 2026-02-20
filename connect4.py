@@ -2,7 +2,9 @@
 ROWS = 6
 COLS = 7
 
-# creates a 6 x 7 board 
+# creates a 6 x 7 board
+# uses a white circle to represent an empty space, 
+# and red and yellow circles for p1 and p2 piece respectively
 def create_board():
     board = []
     for _ in range(ROWS):
@@ -69,7 +71,7 @@ def check_winner(board, piece):
     return False
 
 # function to check if every column on the board is full, meaning the players have tied
-# . is used to represent an empty space, so if all the positions are not empty, then that means
+# ⚪ is used to represent an empty space, so if all the positions are not empty, then that means
 # the board is full
 def is_board_full(board):
     return all(board[0][c] != '⚪' for c in range(COLS))
@@ -134,7 +136,7 @@ def get_column_choice():
 
 def play():
     board = create_board()
-    players = [('1', '🔴'), ('2', '🟡')]
+    players = [('1', '🟡',), ('2', '🔴')]
     # sets the players abilities to true at the start of the game
     bombs = {'1': True, '2': True}
     doubles = {'1': True, '2': True}
