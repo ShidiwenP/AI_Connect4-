@@ -11,6 +11,19 @@ def print_board(board):
     print()
     print()
 
+def get_next_open_row(board, col):
+    for row in range(ROWS - 1, -1, -1):
+        if board[row][col] == '.':
+            return row
+    return None
+
+def drop_piece(board, col, piece):
+    row = get_next_open_row(board, col)
+    if row is None:
+        return False
+    board[row][col] = piece
+    return True
+
 if __name__ == '__main__':
     board = create_board()
     print_board(board)
