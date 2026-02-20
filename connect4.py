@@ -1,6 +1,7 @@
 ROWS = 6
 COLS = 7
 
+# creates a 6 x 7 board 
 def create_board():
     board = []
     for _ in range(ROWS):
@@ -30,6 +31,7 @@ def drop_piece(board, col, piece):
     board[row][col] = piece
     return True
 
+# function to check the four win conditions - horizontal, vertical, and two diagonals
 def check_winner(board, piece):
     # Horizontal
     for r in range(ROWS):
@@ -65,9 +67,12 @@ def check_winner(board, piece):
                 return True
     return False
 
+# function to check if every column on the board is full, meaning the players have tied
 def is_board_full(board):
     return all(board[0][c] != '.' for c in range(COLS))
 
+# function that represents the players dropping a bomb, looks at the column the player chose to bomb
+# and sets every row in that column to be empty
 def bomb_column(board, col):
     for row in range(ROWS):
         board[row][col] = '.'
