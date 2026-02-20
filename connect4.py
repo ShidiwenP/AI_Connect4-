@@ -7,7 +7,7 @@ def create_board():
 def print_board(board):
     print()
     for row in board:
-        print('| | '.join(row))
+        print('| '.join(row))
     print()
     print()
 
@@ -47,6 +47,46 @@ def check_winner(board, piece):
                 return True
     return False
 
-if __name__ == '__main__':
+def is_board_full(board):
+    return all(board[0][c] != '.' for c in range(COLS))
+
+def get_player_move(player, piece):
+    while True:
+        try:
+            col = int(input(f"Player {player} ({piece}), choose column (1-7): ")) - 1
+            if 0 <= col < COLS:
+                return col
+            print("Please enter a number between 1 and 7.")
+        except ValueError:
+            print("Invalid input. Enter a number.")
+
+def play():
     board = create_board()
+    players = [('1', 'X'), ('2', 'O')]
+    turn = 0
+
+    print("=== Connect 4 ===")
     print_board(board)
+
+    while True:
+        player, piece = players[turn % 2]
+        col = get_player_move(player, piece)
+
+        if not drop_piece(board, col, piece):
+            print("That column is full! Try another.")
+            continue
+
+        print_board(board)
+
+        if check_winner(board, piece):
+            print(f"Player {player} wins!")
+            break
+
+        if is_board_full(board):
+            print("It's a draw!")
+            break
+
+        turn += 1
+
+if __name__ == '__main__':
+    play()
