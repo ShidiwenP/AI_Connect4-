@@ -1,3 +1,4 @@
+# global variable to allow for dimensions of board, currently it is the default 6 x 7
 ROWS = 6
 COLS = 7
 
@@ -68,6 +69,8 @@ def check_winner(board, piece):
     return False
 
 # function to check if every column on the board is full, meaning the players have tied
+# . is used to represent an empty space, so if all the positions are not empty, then that means
+# the board is full
 def is_board_full(board):
     return all(board[0][c] != '.' for c in range(COLS))
 
@@ -87,6 +90,12 @@ def double_drop(board, col, piece):
     if not second:
         return True
     return True
+
+# function to prompt the current player to choose an action 
+# (drop, bomb, or double drop) and a column, then returns both.
+
+# return -a tuple is then used in play() as action, col to determine how
+# the board changed
 
 def get_player_action(player, piece, has_bomb, has_double):
     while True:
@@ -111,10 +120,12 @@ def get_player_action(player, piece, has_bomb, has_double):
         else:
             print(f"Invalid choice. Enter {'/'.join(options)}.")
 
+# function to get the column choice of the user whether for the default drop or their abilities
 def get_column_choice():
     while True:
         try:
             col = int(input("Choose column (1-7): ")) - 1
+            # checks if the user inputted a column that is within the global COLs boundaries
             if 0 <= col < COLS:
                 return col
             print("Please enter a number between 1 and 7.")
@@ -124,6 +135,7 @@ def get_column_choice():
 def play():
     board = create_board()
     players = [('1', 'X'), ('2', 'O')]
+    # sets the players abilities to true at the start of the game
     bombs = {'1': True, '2': True}
     doubles = {'1': True, '2': True}
     turn = 0
