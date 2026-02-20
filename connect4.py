@@ -2,7 +2,13 @@ ROWS = 6
 COLS = 7
 
 def create_board():
-    return [['.' for _ in range(COLS)] for _ in range(ROWS)]
+    board = []
+    for _ in range(ROWS):
+        row = []
+        for _ in range(COLS):
+            row.append('.')
+        board.append(row)
+    return board
 
 def print_board(board):
     print()
