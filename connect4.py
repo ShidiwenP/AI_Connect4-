@@ -77,6 +77,8 @@ def bomb_column(board, col):
     for row in range(ROWS):
         board[row][col] = '.'
 
+# function to allow players to double drop pieces. It also checks if the board is filled before allowing
+# a player to drop 2 pieces
 def double_drop(board, col, piece):
     first = drop_piece(board, col, piece)
     if not first:
@@ -130,9 +132,14 @@ def play():
     print_board(board)
 
     while True:
+        # each time 'turn' increments, the game switches to the other player
+        # by using the modulus remainder
+        # players = [('1', 'X'), ('2', 'O')], so turn 0 would be 0 % 2 = 0, so index 0 (player 1)
+        # and turn 1 would be 1 % 2 = 1, so index 1 (player 2)
         player, piece = players[turn % 2]
         action, col = get_player_action(player, piece, bombs[player], doubles[player])
 
+        # the three actions a player can take - bomb, double drop, and regular drop
         if action == 'bomb':
             bomb_column(board, col)
             bombs[player] = False
@@ -151,10 +158,12 @@ def play():
                 continue
             print_board(board)
 
+        # check if after the player placed a piece if they satisfied any of the win conditions
         if check_winner(board, piece):
             print(f"Player {player} wins!")
             break
-
+        
+        # if entire board is filled, announce such and break
         if is_board_full(board):
             print("It's a draw!")
             break
