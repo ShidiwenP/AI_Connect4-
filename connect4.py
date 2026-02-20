@@ -68,17 +68,24 @@ def check_winner(board, piece):
 def is_board_full(board):
     return all(board[0][c] != '.' for c in range(COLS))
 
-def get_player_action(player, piece):
+def bomb_column(board, col):
+    for row in range(ROWS):
+        board[row][col] = '.'
+
+def get_player_action(player, piece, has_bomb):
     while True:
         print(f"Player {player} ({piece}), choose an action:")
         print("  1. Drop a piece")
-        print("  2. Use a power-up")
+        bomb_label = "Bomb a column" if has_bomb else "Bomb a column (USED)"
+        print(f"  2. {bomb_label}")
         choice = input("Enter 1 or 2: ").strip()
         if choice == '1':
             return 'drop', get_column_choice()
         elif choice == '2':
-            print("Power-ups are coming soon!")
-            continue
+            if not has_bomb:
+                print("You already used your bomb!")
+                continue
+            return 'bomb', get_column_choice()
         else:
             print("Invalid choice. Enter 1 or 2.")
 
@@ -95,6 +102,7 @@ def get_column_choice():
 def play():
     board = create_board()
     players = [('1', 'X'), ('2', 'O')]
+    bombs = {'1': True, '2': True}
     turn = 0
 
     print("=== Connect 4 ===")
@@ -102,13 +110,18 @@ def play():
 
     while True:
         player, piece = players[turn % 2]
-        action, col = get_player_action(player, piece)
+        action, col = get_player_action(player, piece, bombs[player])
 
-        if not drop_piece(board, col, piece):
-            print("That column is full! Try another.")
-            continue
-
-        print_board(board)
+        if action == 'bomb':
+            bomb_column(board, col)
+            bombs[player] = False
+            print(f"Player {player} bombed column {col + 1}!")
+            print_board(board)
+        elif action == 'drop':
+            if not drop_piece(board, col, piece):
+                print("That column is full! Try another.")
+                continue
+            print_board(board)
 
         if check_winner(board, piece):
             print(f"Player {player} wins!")
