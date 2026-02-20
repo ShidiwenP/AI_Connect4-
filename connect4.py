@@ -34,22 +34,34 @@ def check_winner(board, piece):
     # Horizontal
     for r in range(ROWS):
         for c in range(COLS - 3):
-            if all(board[r][c + i] == piece for i in range(4)):
+            if (board[r][c] == piece
+                    and board[r][c + 1] == piece
+                    and board[r][c + 2] == piece
+                    and board[r][c + 3] == piece):
                 return True
     # Vertical
     for r in range(ROWS - 3):
         for c in range(COLS):
-            if all(board[r + i][c] == piece for i in range(4)):
+            if (board[r][c] == piece
+                    and board[r + 1][c] == piece
+                    and board[r + 2][c] == piece
+                    and board[r + 3][c] == piece):
                 return True
     # Diagonal (down-right)
     for r in range(ROWS - 3):
         for c in range(COLS - 3):
-            if all(board[r + i][c + i] == piece for i in range(4)):
+            if (board[r][c] == piece
+                    and board[r + 1][c + 1] == piece
+                    and board[r + 2][c + 2] == piece
+                    and board[r + 3][c + 3] == piece):
                 return True
     # Diagonal (down-left)
     for r in range(ROWS - 3):
         for c in range(3, COLS):
-            if all(board[r + i][c - i] == piece for i in range(4)):
+            if (board[r][c] == piece
+                    and board[r + 1][c - 1] == piece
+                    and board[r + 2][c - 2] == piece
+                    and board[r + 3][c - 3] == piece):
                 return True
     return False
 
