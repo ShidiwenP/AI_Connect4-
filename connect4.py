@@ -24,6 +24,29 @@ def drop_piece(board, col, piece):
     board[row][col] = piece
     return True
 
+def check_winner(board, piece):
+    # Horizontal
+    for r in range(ROWS):
+        for c in range(COLS - 3):
+            if all(board[r][c + i] == piece for i in range(4)):
+                return True
+    # Vertical
+    for r in range(ROWS - 3):
+        for c in range(COLS):
+            if all(board[r + i][c] == piece for i in range(4)):
+                return True
+    # Diagonal (down-right)
+    for r in range(ROWS - 3):
+        for c in range(COLS - 3):
+            if all(board[r + i][c + i] == piece for i in range(4)):
+                return True
+    # Diagonal (down-left)
+    for r in range(ROWS - 3):
+        for c in range(3, COLS):
+            if all(board[r + i][c - i] == piece for i in range(4)):
+                return True
+    return False
+
 if __name__ == '__main__':
     board = create_board()
     print_board(board)
