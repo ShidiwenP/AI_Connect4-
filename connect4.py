@@ -5,7 +5,7 @@ COLS = 7
 # creates a 6 x 7 board
 # uses a white circle to represent an empty space, 
 # and red and yellow circles for p1 and p2 piece respectively
-def create_board():
+def initialize_board():
     board = []
     for _ in range(ROWS):
         row = []
@@ -14,7 +14,7 @@ def create_board():
         board.append(row)
     return board
 
-def print_board(board):
+def display_board(board):
     print()
     for row in board:
         print('| '.join(row))
@@ -135,7 +135,7 @@ def get_column_choice():
             print("Invalid input. Enter a number.")
 
 def play():
-    board = create_board()
+    board = initialize_board()
     players = [('1', '🟡',), ('2', '🔴')]
     # sets the players abilities to true at the start of the game
     bombs = {'1': True, '2': True}
@@ -143,7 +143,7 @@ def play():
     turn = 0
 
     print("=== Connect 4 ===")
-    print_board(board)
+    display_board(board)
 
     while True:
         # each time 'turn' increments, the game switches to the other player
@@ -158,19 +158,19 @@ def play():
             bomb_column(board, col)
             bombs[player] = False
             print(f"Player {player} bombed column {col + 1}!")
-            print_board(board)
+            display_board(board)
         elif action == 'double':
             if not double_drop(board, col, piece):
                 print("That column is full! Try another.")
                 continue
             doubles[player] = False
             print(f"Player {player} double-dropped in column {col + 1}!")
-            print_board(board)
+            display_board(board)
         elif action == 'drop':
             if not drop_piece(board, col, piece):
                 print("That column is full! Try another.")
                 continue
-            print_board(board)
+            display_board(board)
 
         # check if after the player placed a piece if they satisfied any of the win conditions
         if check_winner(board, piece):
