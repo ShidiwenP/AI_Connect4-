@@ -8,7 +8,7 @@ def create_board():
     for _ in range(ROWS):
         row = []
         for _ in range(COLS):
-            row.append('.')
+            row.append('⚪')
         board.append(row)
     return board
 
@@ -21,7 +21,7 @@ def print_board(board):
 
 def get_next_open_row(board, col):
     for row in range(ROWS - 1, -1, -1):
-        if board[row][col] == '.':
+        if board[row][col] == '⚪':
             return row
     return None
 
@@ -72,13 +72,13 @@ def check_winner(board, piece):
 # . is used to represent an empty space, so if all the positions are not empty, then that means
 # the board is full
 def is_board_full(board):
-    return all(board[0][c] != '.' for c in range(COLS))
+    return all(board[0][c] != '⚪' for c in range(COLS))
 
 # function that represents the players dropping a bomb, looks at the column the player chose to bomb
 # and sets every row in that column to be empty
 def bomb_column(board, col):
     for row in range(ROWS):
-        board[row][col] = '.'
+        board[row][col] = '⚪'
 
 # function to allow players to double drop pieces. It also checks if the board is filled before allowing
 # a player to drop 2 pieces
@@ -134,7 +134,7 @@ def get_column_choice():
 
 def play():
     board = create_board()
-    players = [('1', 'X'), ('2', 'O')]
+    players = [('1', '🔴'), ('2', '🟡')]
     # sets the players abilities to true at the start of the game
     bombs = {'1': True, '2': True}
     doubles = {'1': True, '2': True}
