@@ -14,6 +14,7 @@ def initialize_board():
         board.append(row)
     return board
 
+# displays thet board by join all the created arrays in intiialize_board() together
 def display_board(board):
     print()
     for row in board:
@@ -98,7 +99,6 @@ def double_drop(board, col, piece):
 
 # return -a tuple is then used in play() as action, col to determine how
 # the board changed
-
 def get_player_action(player, piece, has_bomb, has_double):
     while True:
         print(f"Player {player} ({piece}), choose an action:")
