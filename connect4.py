@@ -68,10 +68,24 @@ def check_winner(board, piece):
 def is_board_full(board):
     return all(board[0][c] != '.' for c in range(COLS))
 
-def get_player_move(player, piece):
+def get_player_action(player, piece):
+    while True:
+        print(f"Player {player} ({piece}), choose an action:")
+        print("  1. Drop a piece")
+        print("  2. Use a power-up")
+        choice = input("Enter 1 or 2: ").strip()
+        if choice == '1':
+            return 'drop', get_column_choice()
+        elif choice == '2':
+            print("Power-ups are coming soon!")
+            continue
+        else:
+            print("Invalid choice. Enter 1 or 2.")
+
+def get_column_choice():
     while True:
         try:
-            col = int(input(f"Player {player} ({piece}), choose column (1-7): ")) - 1
+            col = int(input("Choose column (1-7): ")) - 1
             if 0 <= col < COLS:
                 return col
             print("Please enter a number between 1 and 7.")
@@ -88,7 +102,7 @@ def play():
 
     while True:
         player, piece = players[turn % 2]
-        col = get_player_move(player, piece)
+        action, col = get_player_action(player, piece)
 
         if not drop_piece(board, col, piece):
             print("That column is full! Try another.")
