@@ -97,7 +97,7 @@ def double_drop(board, col, piece):
 # function to prompt the current player to choose an action 
 # (drop, bomb, or double drop) and a column, then returns both.
 
-# return -a tuple is then used in play() as action, col to determine how
+# return -a tuple is then used in start_game() as action, col to determine how
 # the board changed
 def get_player_action(player, piece, has_bomb, has_double):
     while True:
@@ -134,7 +134,7 @@ def get_column_choice():
         except ValueError:
             print("Invalid input. Enter a number.")
 
-def play():
+def start_game():
     board = initialize_board()
     players = [('1', '🟡',), ('2', '🔴')]
     # sets the players abilities to true at the start of the game
@@ -185,4 +185,4 @@ def play():
         turn += 1
 
 if __name__ == '__main__':
-    play()
+    start_game()
