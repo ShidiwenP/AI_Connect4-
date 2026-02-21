@@ -28,7 +28,7 @@ def get_next_open_row(board, col):
             return row
     return None
 
-def drop_piece(board, col, piece):
+def insert(board, col, piece):
     row = get_next_open_row(board, col)
     if row is None:
         return False
@@ -86,10 +86,10 @@ def bomb_column(board, col):
 # function to allow players to double drop pieces. It also checks if the board is filled before allowing
 # a player to drop 2 pieces
 def double_drop(board, col, piece):
-    first = drop_piece(board, col, piece)
+    first = insert(board, col, piece)
     if not first:
         return False
-    second = drop_piece(board, col, piece)
+    second = insert(board, col, piece)
     if not second:
         return True
     return True
@@ -142,7 +142,7 @@ def play():
     doubles = {'1': True, '2': True}
     turn = 0
 
-    print("=== Connect 4 ===")
+    print("     === Connect 4 ===")
     display_board(board)
 
     while True:
@@ -167,7 +167,7 @@ def play():
             print(f"Player {player} double-dropped in column {col + 1}!")
             display_board(board)
         elif action == 'drop':
-            if not drop_piece(board, col, piece):
+            if not insert(board, col, piece):
                 print("That column is full! Try another.")
                 continue
             display_board(board)
